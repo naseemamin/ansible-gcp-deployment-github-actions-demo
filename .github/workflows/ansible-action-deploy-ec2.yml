@@ -42,4 +42,4 @@ jobs:
         options: |
           --verbose
           --extra-vars "access_key=secrets.access_key secret_key=$secrets.secret_key"
-          --private-key="~/.ssh/id_rsa"
+          --private-key=~/.ssh/id_rsa
