@@ -26,6 +26,10 @@ jobs:
         mkdir ~/.ssh/
         echo "$ssh_private_key" > ~/.ssh/id_rsa
         chmod 600 ~/.ssh/id_rsa
+    - name: list ssh directory contents & head
+      run: |
+        ls -lart  ~/.ssh/
+        head  ~/.ssh/id_rsa
     - name: Run playbook
       uses: dawidd6/action-ansible-playbook@v2
       env:
@@ -38,3 +42,4 @@ jobs:
         options: |
           --verbose
           --extra-vars "access_key=secrets.access_key secret_key=$secrets.secret_key"
+          --private-key="~/.ssh/id_rsa"

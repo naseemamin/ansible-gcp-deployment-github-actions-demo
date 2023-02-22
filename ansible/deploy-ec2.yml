@@ -83,8 +83,6 @@
 
 - hosts: ansible_demo
   gather_facts: no
-  vars:
-    - ansible_ssh_private_key: "{{ lookup('ansible.builtin.env', 'ssh_private_key') }}"
   tasks:
   - name: running role
     include_role:
