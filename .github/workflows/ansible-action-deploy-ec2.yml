@@ -21,8 +21,10 @@ jobs:
         ls -lart
     - name: Run playbook
       uses: dawidd6/action-ansible-playbook@v2
+      env:
+        region: ${{ secrets.region }}
       with:
         playbook: ansible/deploy-ec2.yml
         options: |
           --verbose
-          --extra-vars "access_key=$secrets.access_key secret_key=$secrets.secret_key region=$secrets.region"
+          --extra-vars "access_key=secrets.access_key secret_key=$secrets.secret_key"
