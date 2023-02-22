@@ -26,6 +26,7 @@ jobs:
         secret_key: ${{ secrets.secret_key }}
         access_key: ${{ secrets.access_key }}
         ssh_key: ${{ secrets.ssh_key }}
+        ssh_private_key: ${{ secrets.ssh_private_key }}
       with:
         playbook: ansible/deploy-ec2.yml
         options: |
