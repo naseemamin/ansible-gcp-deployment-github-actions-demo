@@ -34,5 +34,3 @@ jobs:
           cd infrastructure/ansible
           cat setup-prod.yml
           ansible-playbook -vvv --private-key /home/runner/.ssh/id_rsa -u ${{secrets.ANSIBLE_DEPLOY_USER}} ansible/deploy.yml
-
-
