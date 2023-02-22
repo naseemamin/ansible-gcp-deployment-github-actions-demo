@@ -9,6 +9,9 @@ jobs:
     - name: print current working directory
       run: |
         pwd
+    - name: list directory contents
+      run: |
+        ls -lart
     - name: Run playbook
       uses: dawidd6/action-ansible-playbook@v2
       with:
