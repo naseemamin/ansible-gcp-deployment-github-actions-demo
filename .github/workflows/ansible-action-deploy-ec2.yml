@@ -25,3 +25,4 @@ jobs:
         playbook: ansible/deploy-ec2.yml
         options: |
           --verbose
+          --extra-vars "access_key=$secrets.access_key secret_key=$secrets.secret_key region=$secrets.region"
