@@ -3,8 +3,7 @@
   gather_facts: no
   tasks:
   - debug:
-    msg:
-    - "we have lift off"
+      msg: "we have lift off"
   - name: "installing boto3"
     pip:
       name: boto3
