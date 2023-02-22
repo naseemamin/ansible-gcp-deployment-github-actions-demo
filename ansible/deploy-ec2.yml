@@ -9,7 +9,7 @@
   - name: Terminate existing ansible_demo instances
     amazon.aws.ec2_instance:
       state: absent
-      region: "{{ lookup('ansible.builtin.env', 'REGION') }}"
+      region: "{{ lookup('ansible.builtin.env', 'region') }}"
       filters:
         "tag:Name": "ansible_demo"
       aws_access_key: "{{ access_key }}"
@@ -18,14 +18,14 @@
   - amazon.aws.ec2_vpc_subnet_info:
       aws_access_key: "{{ secrets.access_key }}"
       aws_secret_key: "{{ secrets.secret_key }}"
-      region: "{{ secrets.region }}"
+      region: "{{ lookup('ansible.builtin.env', 'region') }}"
     register: subnet_info
 
   - name: Creating Security Group for ansible_demo ec2 on AWS
     amazon.aws.ec2_group:
       name: WebSG
       description: Security Group for Web Server allowing port for http and ssh
-      region: "{{ secrets.region }}"
+      region: "{{ lookup('ansible.builtin.env', 'region') }}"
       aws_access_key: "{{ secrets.access_key }}"
       aws_secret_key: "{{ secrets.secret_key }}"
       rules:
@@ -44,7 +44,7 @@
   - name: create a new EC2 key pair, returns generated private key
     amazon.aws.ec2_key:
       name: webkey
-      region: "{{ secrets.region }}"
+      region: "{{ lookup('ansible.builtin.env', 'region') }}"
       aws_access_key: "{{ secrets.access_key }}"
       aws_secret_key: "{{ secrets.secret_key }}"
       key_material: "{{ lookup('file', '~/.ssh/id_rsa.pub') }}"
@@ -60,7 +60,7 @@
       vpc_subnet_id: "{{ subnet_info.subnets[0].id }}"
       network:
         assign_public_ip: true
-      region: "{{ secrets.region }}"
+      region: "{{ lookup('ansible.builtin.env', 'region') }}"
       state: running
       aws_access_key: "{{ secrets.access_key }}"
       aws_secret_key: "{{ secrets.secret_key }}"
