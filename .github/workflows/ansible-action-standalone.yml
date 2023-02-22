@@ -1,6 +1,6 @@
 name: deployAnsibleStandAloneAction
 
-on: [push]
+on: [push, workflow_dispatch]
 
 jobs:
   build:
@@ -12,26 +12,26 @@ jobs:
     - name: print current working directory
       run: |
         pwd
-    - name: list directory contents
-      run: |
-        ls -lart
-    - name: list directory contents of directory one level up
-      run: |
-        cd ..
-        ls -lart
-      - name: Setup SSH
-        shell: bash
-        run: |
-         eval `ssh-agent -s`
-         mkdir -p /home/runner/.ssh/
-         touch /home/runner/.ssh/id_rsa
-         echo -e "${{secrets.SSH_KEY}}" > /home/runner/.ssh/id_rsa
-         chmod 700 /home/runner/.ssh/id_rsa
-         ssh-keyscan -t rsa,dsa,ecdsa,ed25519 ${{secrets.SSH_HOST}} >> /home/runner/.ssh/known_hosts
-      - name: Run ansible script
-        shell: bash
-        run: |
-          service ssh status
-          cd infrastructure/ansible
-          cat setup-prod.yml
-          ansible-playbook -vvv --private-key /home/runner/.ssh/id_rsa -u ${{secrets.ANSIBLE_DEPLOY_USER}} ansible/deploy.yml
+#    - name: list directory contents
+#      run: |
+#        ls -lart
+#    - name: list directory contents of directory one level up
+#      run: |
+#        cd ..
+#        ls -lart
+#      - name: Setup SSH
+#        shell: bash
+#        run: |
+#         eval `ssh-agent -s`
+#         mkdir -p /home/runner/.ssh/
+#         touch /home/runner/.ssh/id_rsa
+#         echo -e "${{secrets.SSH_KEY}}" > /home/runner/.ssh/id_rsa
+#         chmod 700 /home/runner/.ssh/id_rsa
+#         ssh-keyscan -t rsa,dsa,ecdsa,ed25519 ${{secrets.SSH_HOST}} >> /home/runner/.ssh/known_hosts
+#      - name: Run ansible script
+#        shell: bash
+#        run: |
+#          service ssh status
+#          cd infrastructure/ansible
+#          cat setup-prod.yml
+#          ansible-playbook -vvv --private-key /home/runner/.ssh/id_rsa -u ${{secrets.ANSIBLE_DEPLOY_USER}} ansible/deploy.yml
