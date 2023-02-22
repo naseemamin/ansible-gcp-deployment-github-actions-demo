@@ -83,6 +83,7 @@
 
 - hosts: ansible_demo
   gather_facts: no
+  remote_user: ec2-user
   tasks:
   - name: running role
     include_role:
