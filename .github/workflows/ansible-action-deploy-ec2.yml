@@ -1,4 +1,4 @@
-name: deployAnsible
+name: deployAnsibleEC2
 
 on: [push, workflow_dispatch]
 

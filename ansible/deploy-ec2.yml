@@ -9,11 +9,11 @@
   - name: Terminate existing ansible_demo instances
     amazon.aws.ec2_instance:
       state: absent
-      region: "{{ secrets.region }}"
+      region: "{{ region }}"
       filters:
         "tag:Name": "ansible_demo"
-      aws_access_key: "{{ secrets.access_key }}"
-      aws_secret_key: "{{ secrets.secret_key }}"
+      aws_access_key: "{{ access_key }}"
+      aws_secret_key: "{{ secret_key }}"
 
   - amazon.aws.ec2_vpc_subnet_info:
       aws_access_key: "{{ secrets.access_key }}"
