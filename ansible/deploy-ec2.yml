@@ -12,8 +12,8 @@
       region: "{{ lookup('ansible.builtin.env', 'region') }}"
       filters:
         "tag:Name": "ansible_demo"
-      aws_access_key: "{{ access_key }}"
-      aws_secret_key: "{{ secret_key }}"
+      aws_access_key: "{{ lookup('ansible.builtin.env', 'access_key') }}"
+      aws_secret_key: "{{ lookup('ansible.builtin.env', 'secret_key') }}"
 
   - amazon.aws.ec2_vpc_subnet_info:
       aws_access_key: "{{ secrets.access_key }}"

@@ -23,6 +23,8 @@ jobs:
       uses: dawidd6/action-ansible-playbook@v2
       env:
         region: ${{ secrets.region }}
+        secret_key: ${{ secrets.secret_key }}
+        access_key: ${{ secrets.access_key }}
       with:
         playbook: ansible/deploy-ec2.yml
         options: |
