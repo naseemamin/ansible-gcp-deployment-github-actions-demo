@@ -1,0 +1,7 @@
+- name: Run playbook
+  uses: dawidd6/action-ansible-playbook@v2
+  with:
+    # Required, playbook filepath
+    playbook: deploy.yml
+    options: |
+      --verbose
