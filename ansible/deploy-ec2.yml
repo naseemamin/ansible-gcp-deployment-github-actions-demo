@@ -47,7 +47,7 @@
       region: "{{ lookup('ansible.builtin.env', 'region') }}"
       aws_access_key: "{{ lookup('ansible.builtin.env', 'access_key') }}"
       aws_secret_key: "{{ lookup('ansible.builtin.env', 'secret_key') }}"
-      key_material: "{{ lookup('file', '~/.ssh/id_rsa.pub') }}"
+      key_material: "{{ lookup('ansible.builtin.env', 'ssh_key') }}"
 
   - name: launching ec2 instance for ansible_demo
     amazon.aws.ec2_instance:
