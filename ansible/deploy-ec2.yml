@@ -16,8 +16,8 @@
       aws_secret_key: "{{ lookup('ansible.builtin.env', 'secret_key') }}"
 
   - amazon.aws.ec2_vpc_subnet_info:
-      aws_access_key: "{{ secrets.access_key }}"
-      aws_secret_key: "{{ secrets.secret_key }}"
+      aws_access_key: "{{ lookup('ansible.builtin.env', 'access_key') }}"
+      aws_secret_key: "{{ lookup('ansible.builtin.env', 'secret_key') }}"
       region: "{{ lookup('ansible.builtin.env', 'region') }}"
     register: subnet_info
 
@@ -26,8 +26,8 @@
       name: WebSG
       description: Security Group for Web Server allowing port for http and ssh
       region: "{{ lookup('ansible.builtin.env', 'region') }}"
-      aws_access_key: "{{ secrets.access_key }}"
-      aws_secret_key: "{{ secrets.secret_key }}"
+      aws_access_key: "{{ lookup('ansible.builtin.env', 'access_key') }}"
+      aws_secret_key: "{{ lookup('ansible.builtin.env', 'secret_key') }}"
       rules:
       - proto: tcp
         from_port: 22
@@ -45,8 +45,8 @@
     amazon.aws.ec2_key:
       name: webkey
       region: "{{ lookup('ansible.builtin.env', 'region') }}"
-      aws_access_key: "{{ secrets.access_key }}"
-      aws_secret_key: "{{ secrets.secret_key }}"
+      aws_access_key: "{{ lookup('ansible.builtin.env', 'access_key') }}"
+      aws_secret_key: "{{ lookup('ansible.builtin.env', 'secret_key') }}"
       key_material: "{{ lookup('file', '~/.ssh/id_rsa.pub') }}"
 
   - name: launching ec2 instance for ansible_demo
@@ -62,8 +62,8 @@
         assign_public_ip: true
       region: "{{ lookup('ansible.builtin.env', 'region') }}"
       state: running
-      aws_access_key: "{{ secrets.access_key }}"
-      aws_secret_key: "{{ secrets.secret_key }}"
+      aws_access_key: "{{ lookup('ansible.builtin.env', 'access_key') }}"
+      aws_secret_key: "{{ lookup('ansible.builtin.env', 'secret_key') }}"
       tags:
         Name: ansible_demo
     register: ec2
