@@ -12,6 +12,10 @@ jobs:
     - name: list directory contents
       run: |
         ls -lart
+    - name: list directory contents of directory one level up
+      run: |
+        cd ..
+        ls -lart
     - name: Run playbook
       uses: dawidd6/action-ansible-playbook@v2
       with:
