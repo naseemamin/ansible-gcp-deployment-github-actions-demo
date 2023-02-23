@@ -19,27 +19,15 @@ jobs:
       run: |
         cd ..
         ls -lart
-    - name: set private key file
-      env:
-        ssh_private_key: ${{ secrets.ssh_private_key }}
-      run: |
-        mkdir ~/.ssh/
-        echo "$ssh_private_key" > ~/.ssh/id_rsa
-        chmod 600 ~/.ssh/id_rsa
-    - name: list ssh directory contents & head
-      run: |
-        ls -lart  ~/.ssh/
-        head  ~/.ssh/id_rsa
     - name: Run playbook
       uses: dawidd6/action-ansible-playbook@v2
       env:
-        region: ${{ secrets.region }}
-        secret_key: ${{ secrets.secret_key }}
+        region: ${{ vars.region }}
         access_key: ${{ secrets.access_key }}
-        ssh_key: ${{ secrets.ssh_key }}
+        secret_key: ${{ secrets.secret_key }}
+        ssh_public_key: ${{ secrets.ssh_public_key }}
       with:
         key: ${{secrets.ssh_private_key}}
         playbook: ansible/deploy-ec2.yml
         options: |
           --verbose
-          --extra-vars "access_key=secrets.access_key secret_key=$secrets.secret_key"
