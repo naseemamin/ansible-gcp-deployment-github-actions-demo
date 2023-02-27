@@ -22,9 +22,9 @@
       state: absent
 
   # look-up the list of subnets and register the output and store it as variable "subnet_info"
-  # https://docs.ansible.com/ansible/latest/collections/google/cloud/gcp_compute_subnetwork_facts_module.html
+  # https://docs.ansible.com/ansible/latest/collections/google/cloud/gcp_compute_subnetwork_info_module.html
   - name: get subnet info
-    google.cloud.gcp_compute_subnetwork_facts:
+    google.cloud.gcp_compute_subnetwork_info:
       project: "{{ lookup('env','GCP_PROJECT_ID') }}"
       region: "{{ lookup('env','GCP_REGION') }}"
       auth_kind: serviceaccount
@@ -81,4 +81,14 @@
       groupname: ansible_demo_host_group
     loop: "{{ google_cloud_gcp_compute_instance.instances }}"
 
-  - name: wait for ssh to come
+    # connect to GCP instances to run the httpd
+  - hosts: ansible_demo_host_group
+    gather_facts: no
+    remote_user: "{{ lookup('env','GCP_REMOTE_USER') }}"
+    become_method: sudo 
+    become: yes
+    tasks:
+    - name: running role
+      include_role:
+        name: httpdserver
+
