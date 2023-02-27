@@ -58,6 +58,8 @@
       disks:
       - boot: true
         auto_delete: true
+        initialize_params:
+          source_image: projects/debian-cloud/global/images/debian-10/debian-10-buster-v20230206
       network_interfaces:
       - access_configs:
         - name: External NAT
