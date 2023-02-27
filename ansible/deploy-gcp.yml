@@ -1,0 +1,84 @@
+# "connect" to localhost to execute commands
+- hosts: localhost
+  gather_facts: no
+  tasks:
+  - name:
+    # confirm that the google-auth and google-cloud-sdk Python packages are installed using pip
+    pip:
+      name:
+        - google-auth
+        - google-cloud-sdk
+      state: present
+
+  # delete GCP instances named "ansible-demo" by declaring a goal state of absent (deleted)
+  # https://docs.ansible.com/ansible/latest/collections/google/cloud/gcp_compute_instance_module.html
+  - name: delete existing ansible-demo instances
+    google.cloud.gcp_compute_instance:
+      name: ansible-demo
+      project: "{{ lookup('env','GCP_PROJECT_ID') }}"
+      zone: "{{ lookup('env','GCP_ZONE') }}"
+      auth_kind: serviceaccount
+      service_account_file: "{{ lookup('env','GOOGLE_APPLICATION_CREDENTIALS') }}"
+      state: absent
+
+  # look-up the list of subnets and register the output and store it as variable "subnet_info"
+  # https://docs.ansible.com/ansible/latest/collections/google/cloud/gcp_compute_subnetwork_facts_module.html
+  - name: get subnet info
+    google.cloud.gcp_compute_subnetwork_facts:
+      project: "{{ lookup('env','GCP_PROJECT_ID') }}"
+      region: "{{ lookup('env','GCP_REGION') }}"
+      auth_kind: serviceaccount
+      service_account_file: "{{ lookup('env','GOOGLE_APPLICATION_CREDENTIALS') }}"
+    register: subnet_info
+
+  # create firewall rule to allow incoming traffic on port 80 (HTTP)
+  # https://docs.ansible.com/ansible/latest/collections/google/cloud/gcp_compute_firewall_module.html
+  - name: allow HTTP traffic
+    google.cloud.gcp_compute_firewall:
+      project: "{{ lookup('env','GCP_PROJECT_ID') }}"
+      name: allow-http
+      auth_kind: serviceaccount
+      service_account_file: "{{ lookup('env','GOOGLE_APPLICATION_CREDENTIALS') }}"
+      network: default
+      allowed:
+      - IPProtocol: tcp
+        ports:
+        - "80"
+
+  # create instance with a startup script that installs Apache HTTP Server
+  # https://docs.ansible.com/ansible/latest/collections/google/cloud/gcp_compute_instance_module.html
+  - name: create GCP instance
+    google.cloud.gcp_compute_instance:
+      name: ansible-demo
+      project: "{{ lookup('env','GCP_PROJECT_ID') }}"
+      zone: "{{ lookup('env','GCP_ZONE') }}"
+      auth_kind: serviceaccount
+      service_account_file: "{{ lookup('env','GOOGLE_APPLICATION_CREDENTIALS') }}"
+      machine_type: f1-micro
+      disks:
+      - boot: true
+        auto_delete: true
+      network_interfaces:
+      - access_configs:
+        - name: External NAT
+          type: ONE_TO_ONE_NAT
+        network: default
+        subnetwork: "{{ subnet_info.subnetworks[0].self_link }}"
+      metadata:
+        items:
+        - key: startup-script
+          value: |
+            #!/bin/bash
+            sudo apt-get update
+            sudo apt-get install -y apache2
+      tags:
+        items:
+        - http-server
+
+  - name: add newly created instance to GCP instance group
+    add_host:
+      hostname: "{{ item.networkInterfaces[0].accessConfigs[0].natIP }}"
+      groupname: ansible_demo_host_group
+    loop: "{{ google_cloud_gcp_compute_instance.instances }}"
+
+  - name: wait for ssh to come

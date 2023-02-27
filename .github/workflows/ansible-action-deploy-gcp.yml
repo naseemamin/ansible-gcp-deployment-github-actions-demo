@@ -1,4 +1,4 @@
-name: deployAnsibleEC2
+name: deployAnsibleGCP
 
 on: [push, workflow_dispatch]
 
@@ -22,12 +22,11 @@ jobs:
     - name: Run playbook
       uses: dawidd6/action-ansible-playbook@v2
       env:
-        region: ${{ vars.region }}
-        access_key: ${{ secrets.access_key }}
-        secret_key: ${{ secrets.secret_key }}
-        ssh_public_key: ${{ secrets.ssh_public_key }}
+        credentials_file: ${{ secrets.credentials_file }}
+        project_id: ${{ secrets.project_id }}
+        instance_name: ${{ vars.instance_name }}
+        zone: ${{ vars.zone }}
       with:
-        key: ${{secrets.ssh_private_key}}
-        playbook: ansible/deploy-ec2.yml
+        playbook: ansible/deploy-gcp.yml
         options: |
           --verbose
