@@ -7,7 +7,7 @@
     pip:
       name:
         - google-auth
-        - google-cloud-sdk
+        - google-cloud-compute
       state: present
 
   # delete GCP instances named "ansible-demo" by declaring a goal state of absent (deleted)
