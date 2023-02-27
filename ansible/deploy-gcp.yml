@@ -62,7 +62,7 @@
       - access_configs:
         - name: External NAT
           type: ONE_TO_ONE_NAT
-        network: default
+        network: {"selfLink": "global/networks/default"}
       metadata:
         items:
         - key: startup-script
