@@ -26,7 +26,7 @@
   - name: get subnet info
     google.cloud.gcp_compute_subnetwork_info:
       project: "{{ lookup('ansible.builtin.env','project_id') }}"
-      region: "{{ lookup('ansible.builtin.env','zone') }}"
+      region: us-central1
       auth_kind: serviceaccount
       service_account_contents: "{{ lookup('ansible.builtin.env','credentials_file') }}"
     register: subnet_info

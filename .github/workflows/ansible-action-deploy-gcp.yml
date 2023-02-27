@@ -26,7 +26,6 @@ jobs:
         project_id: ${{ secrets.project_id }}
         instance_name: ${{ vars.instance_name }}
         zone: ${{ vars.zone }}
-        region: ${{ vars.region }}
         remote_user: ${{ vars.remote_user }}
       with:
         playbook: ansible/deploy-gcp.yml
