@@ -81,7 +81,7 @@
     add_host:
       hostname: "{{ item.networkInterfaces[0].accessConfigs[0].natIP }}"
       groupname: ansible_demo_host_group
-    loop: "{{ gcp_instance.instances }}"
+    # loop: "{{ gcp_instance.instances }}"
 
     # connect to GCP instances to run the httpd
 - hosts: ansible_demo_host_group
