@@ -82,11 +82,15 @@
     loop: "{{ google_cloud_gcp_compute_instance.instances }}"
 
     # connect to GCP instances to run the httpd
-  - hosts: ansible_demo_host_group
+  - name: connect to GCP instances to run the httpd  
+    hosts: ansible_demo_host_group
+    
     gather_facts: no
+    
     remote_user: "{{ lookup('env','GCP_REMOTE_USER') }}"
     become_method: sudo 
     become: yes
+    
     tasks:
     - name: running role
       include_role:
