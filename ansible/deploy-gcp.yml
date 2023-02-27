@@ -12,14 +12,14 @@
 
   # delete GCP instances named "ansible-demo" by declaring a goal state of absent (deleted)
   # https://docs.ansible.com/ansible/latest/collections/google/cloud/gcp_compute_instance_module.html
-  - name: delete existing ansible-demo instances
-    google.cloud.gcp_compute_instance:
-      name: ansible-demo
-      project: "{{ lookup('env','GCP_PROJECT_ID') }}"
-      zone: "{{ lookup('env','GCP_ZONE') }}"
-      auth_kind: serviceaccount
-      service_account_file: "{{ lookup('env','GOOGLE_APPLICATION_CREDENTIALS') }}"
-      state: absent
+  # - name: delete existing ansible-demo instances
+  #   google.cloud.gcp_compute_instance:
+  #     name: ansible-demo
+  #     project: "{{ lookup('env','GCP_PROJECT_ID') }}"
+  #     zone: "{{ lookup('env','GCP_ZONE') }}"
+  #     auth_kind: serviceaccount
+  #     service_account_file: "{{ lookup('env','GOOGLE_APPLICATION_CREDENTIALS') }}"
+  #     state: absent
 
   # look-up the list of subnets and register the output and store it as variable "subnet_info"
   # https://docs.ansible.com/ansible/latest/collections/google/cloud/gcp_compute_subnetwork_info_module.html
