@@ -82,8 +82,7 @@
     loop: "{{ google_cloud_gcp_compute_instance.instances }}"
 
     # connect to GCP instances to run the httpd
-  - name: connect to GCP instances to run the httpd  
-    hosts: ansible_demo_host_group
+  - hosts: ansible_demo_host_group
     
     gather_facts: no
     
