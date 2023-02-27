@@ -12,33 +12,33 @@
 
   # delete GCP instances named "ansible-demo" by declaring a goal state of absent (deleted)
   # https://docs.ansible.com/ansible/latest/collections/google/cloud/gcp_compute_instance_module.html
-  # - name: delete existing ansible-demo instances
-  #   google.cloud.gcp_compute_instance:
-  #     name: ansible-demo
-  #     project: "{{ lookup('env','GCP_PROJECT_ID') }}"
-  #     zone: "{{ lookup('env','GCP_ZONE') }}"
-  #     auth_kind: serviceaccount
-  #     service_account_file: "{{ lookup('env','GOOGLE_APPLICATION_CREDENTIALS') }}"
-  #     state: absent
+  - name: delete existing ansible-demo instances
+    google.cloud.gcp_compute_instance:
+      name: ansible-demo
+      project: "{{ lookup('ansible.builtin.env','project_id') }}"
+      zone: "{{ lookup('ansible.builtin.env','zone') }}"
+      auth_kind: serviceaccount
+      service_account_file: "{{ lookup('ansible.builtin.env','credentials_file') }}"
+      state: absent
 
   # look-up the list of subnets and register the output and store it as variable "subnet_info"
   # https://docs.ansible.com/ansible/latest/collections/google/cloud/gcp_compute_subnetwork_info_module.html
   - name: get subnet info
     google.cloud.gcp_compute_subnetwork_info:
-      project: "{{ lookup('env','GCP_PROJECT_ID') }}"
-      region: "{{ lookup('env','GCP_REGION') }}"
+      project: "{{ lookup('ansible.builtin.env','project_id') }}"
+      region: "{{ lookup('ansible.builtin.env','zone') }}"
       auth_kind: serviceaccount
-      service_account_file: "{{ lookup('env','GOOGLE_APPLICATION_CREDENTIALS') }}"
+      service_account_file: "{{ lookup('ansible.builtin.env','credentials_file') }}"
     register: subnet_info
 
   # create firewall rule to allow incoming traffic on port 80 (HTTP)
   # https://docs.ansible.com/ansible/latest/collections/google/cloud/gcp_compute_firewall_module.html
   - name: allow HTTP traffic
     google.cloud.gcp_compute_firewall:
-      project: "{{ lookup('env','GCP_PROJECT_ID') }}"
+      project: "{{ lookup('ansible.builtin.env','project_id') }}"
       name: allow-http
       auth_kind: serviceaccount
-      service_account_file: "{{ lookup('env','GOOGLE_APPLICATION_CREDENTIALS') }}"
+      service_account_file: "{{ lookup('ansible.builtin.env','credentials_file') }}"
       network: default
       allowed:
       - IPProtocol: tcp
@@ -50,10 +50,10 @@
   - name: create GCP instance
     google.cloud.gcp_compute_instance:
       name: ansible-demo
-      project: "{{ lookup('env','GCP_PROJECT_ID') }}"
-      zone: "{{ lookup('env','GCP_ZONE') }}"
+      project: "{{ lookup('ansible.builtin.env','project_id') }}"
+      zone: "{{ lookup('ansible.builtin.env','zone') }}"
       auth_kind: serviceaccount
-      service_account_file: "{{ lookup('env','GOOGLE_APPLICATION_CREDENTIALS') }}"
+      service_account_file: "{{ lookup('ansible.builtin.env','credentials_file') }}"
       machine_type: f1-micro
       disks:
       - boot: true
@@ -84,7 +84,7 @@
     # connect to GCP instances to run the httpd
 - hosts: ansible_demo_host_group
   gather_facts: no
-  remote_user: "{{ lookup('env','GCP_REMOTE_USER') }}"
+  remote_user: "{{ lookup('ansible.builtin.env','remote_user') }}"
   become_method: sudo 
   become: yes
   tasks:
