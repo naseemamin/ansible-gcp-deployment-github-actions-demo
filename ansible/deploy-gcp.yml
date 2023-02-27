@@ -63,7 +63,6 @@
         - name: External NAT
           type: ONE_TO_ONE_NAT
         network: default
-        subnetwork: "{{ subnet_info.subnetworks[0].self_link }}"
       metadata:
         items:
         - key: startup-script
