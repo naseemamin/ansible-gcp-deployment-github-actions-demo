@@ -39,7 +39,7 @@
       name: allow-http
       auth_kind: serviceaccount
       service_account_contents: "{{ lookup('ansible.builtin.env','credentials_file') }}"
-      network: default
+      network: {"selfLink": "global/networks/default"}
       allowed:
       - IPProtocol: tcp
         ports:
