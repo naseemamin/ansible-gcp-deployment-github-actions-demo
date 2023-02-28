@@ -8,7 +8,6 @@
       name:
         - google-auth
         - google-cloud-compute
-        - gcp-auth
       state: present
 
   # delete GCP instances named "ansible-demo" by declaring a goal state of absent (deleted)
