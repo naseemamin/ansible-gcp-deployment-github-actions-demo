@@ -75,7 +75,7 @@
       tags:
         items:
         - http-server
-      register: gcp_compute_instance
+    register: gcp_compute_instance
 
   - debug:
       var: gcp_compute_instance
