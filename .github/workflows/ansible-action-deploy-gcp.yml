@@ -27,7 +27,9 @@ jobs:
         instance_name: ${{ vars.instance_name }}
         zone: ${{ vars.zone }}
         remote_user: ${{ vars.remote_user }}
+        ssh_public_key: ${{ secrets.ssh_public_key }}
       with:
+        key: ${{secrets.ssh_private_key}}
         playbook: ansible/deploy-gcp.yml
         options: |
           --verbose
