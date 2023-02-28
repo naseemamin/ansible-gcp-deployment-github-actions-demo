@@ -61,11 +61,8 @@
       service_account_contents: "{{ lookup('ansible.builtin.env','credentials_file') }}"
       name: demo-template
       project: "{{ lookup('ansible.builtin.env','project_id') }}"
-      zone: "{{ lookup('ansible.builtin.env','zone') }}"
       metadata: 
-        items:
-          - key: ssh-keys
-            value: "{{ lookup('ansible.builtin.env', 'ssh_public_key') }}"
+        ssh-keys: "{{ lookup('ansible.builtin.env', 'ssh_public_key') }}"
 
   # create instance with a startup script that installs Apache HTTP Server
   # https://docs.ansible.com/ansible/latest/collections/google/cloud/gcp_compute_instance_module.html
