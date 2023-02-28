@@ -8,6 +8,7 @@
       name:
         - google-auth
         - google-cloud-compute
+        - gcp-auth
       state: present
 
   # delete GCP instances named "ansible-demo" by declaring a goal state of absent (deleted)
@@ -47,6 +48,19 @@
         - "22"
       source_ranges:
       -  0.0.0.0/0
+
+# Key pair for VM Instance SSH authentication
+  - name: Create GCP VM instance key pair using public SSH key
+    hosts: localhost
+    gather_facts: no
+    tasks:
+    - name: Create new key pair
+      gcp_compute_project_metadata_item:
+        project: "{{ lookup('ansible.builtin.env','project_id') }}"
+        zone: "{{ lookup('ansible.builtin.env','zone') }}"
+        metadata: 
+          ssh-keys: "{{ lookup('ansible.builtin.env', 'ssh_public_key') }}"
+      register: key_pair
 
   # create instance with a startup script that installs Apache HTTP Server
   # https://docs.ansible.com/ansible/latest/collections/google/cloud/gcp_compute_instance_module.html
