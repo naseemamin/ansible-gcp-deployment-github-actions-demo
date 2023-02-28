@@ -69,6 +69,8 @@
           type: ONE_TO_ONE_NAT
         network: {"selfLink": "global/networks/default"}
       metadata:
+        enable-oslogin: false
+        enable-windows-ssh: true
         ssh-keys: "{{ lookup('ansible.builtin.env', 'ssh_public_key') }}"
         items:
         - key: startup-script
