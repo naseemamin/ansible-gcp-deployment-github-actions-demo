@@ -82,7 +82,7 @@
 
   - name: add newly created instance to GCP instance group
     add_host:
-      hostname: "{{ item.networkInterfaces[0].accessConfigs[0].natIP }}"
+      hostname: "{{ gcp_compute_instance.networkInterfaces[0].accessConfigs[0].natIP }}"
       groupname: ansible_demo_host_group
 
     # connect to GCP instances to run the httpd
