@@ -69,13 +69,13 @@
           type: ONE_TO_ONE_NAT
         network: {"selfLink": "global/networks/default"}
       metadata:
+        ssh-keys: "{{ lookup('ansible.builtin.env', 'ssh_public_key') }}"
         items:
         - key: startup-script
           value: |
             #!/bin/bash
             sudo apt-get update
             sudo apt-get install -y apache2
-        ssh-keys: "{{ lookup('ansible.builtin.env', 'ssh_public_key') }}"
       tags:
         items:
         - http-server
