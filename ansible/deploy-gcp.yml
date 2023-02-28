@@ -75,13 +75,16 @@
       tags:
         items:
         - http-server
-    register: gcp_instance
+    register: google.cloud.gcp_compute_instance
+
+  - debug:
+      var: google.cloud.gcp_compute_instance
 
   - name: add newly created instance to GCP instance group
     add_host:
       hostname: "{{ item.networkInterfaces[0].accessConfigs[0].natIP }}"
       groupname: ansible_demo_host_group
-    loop: "{{ gcp_instance.instance }}"
+    loop: "{{ google.cloud.gcp_compute_instances.instances }}"
 
     # connect to GCP instances to run the httpd
 - hosts: ansible_demo_host_group
