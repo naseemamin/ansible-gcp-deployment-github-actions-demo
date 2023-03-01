@@ -104,23 +104,6 @@
   become_method: sudo 
   become: yes
   tasks:
-  - name: Install Apache2
-    apt:
-      name: apache2
-      state: present
-
-  - name: Install Apache HTTP server
-    package:
-      name: httpd
-      state: present
-
-  - name: Start and enable Apache HTTP server
-    service:
-      name: httpd
-      state: started
-      enabled: yes
-
   - name: running role
     include_role:
       name: httpdserver
-      
