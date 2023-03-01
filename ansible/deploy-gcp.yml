@@ -112,6 +112,7 @@
         - zlib1g-dev
         - libapr1-dev
         - libaprutil1-dev
+        - apache2
       state: present
 
   - name: Download Apache source
@@ -139,7 +140,7 @@
       name: apache2
       state: started
       enabled: yes
-      
+
   - name: running role
     include_role:
       name: httpdserver
