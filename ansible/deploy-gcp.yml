@@ -104,10 +104,39 @@
   become_method: sudo 
   become: yes
   tasks:
-  - name: Install apache2
+  - name: Install dependencies
     apt:
-      name: apache2
+      name:
+        - build-essential
+        - libpcre3-dev
+        - zlib1g-dev
       state: present
+
+  - name: Download Apache source
+    get_url:
+      url: "https://archive.apache.org/dist/httpd/httpd-2.4.51.tar.gz"
+      dest: "/tmp/httpd-2.4.51.tar.gz"
+
+  - name: Extract Apache source
+    unarchive:
+      src: "/tmp/httpd-2.4.51.tar.gz"
+      dest: "/tmp"
+      remote_src: yes
+
+  - name: Configure and compile Apache
+    shell: |
+      cd /tmp/httpd-2.4.51
+      ./configure
+      make
+      make install
+    args:
+      executable: /bin/bash
+
+  - name: Start Apache service
+    service:
+      name: apache2
+      state: started
+      enabled: yes
   - name: running role
     include_role:
       name: httpdserver
